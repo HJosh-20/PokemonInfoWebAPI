@@ -1,0 +1,116 @@
+<html>
+<head>
+	<link rel="stylesheet" href="population.css">
+	<title>PokemonAPI</title>
+		<script>
+//https://pokeapi.co/api/v2/
+//https://pokeapi.co/api/v2/generation/
+//https://pokeapi.co/api/v2/generation/1/
+
+const apiURL = 'https://pokeapi.co/api/v2/';
+const apiData = [
+					//url selec    		title        		field1    		field2    	fname1   fname2
+					[ 'generation', 'Choose a generation:', 'Generations: ', 'Number: '	, 'name', 'id' ],
+					[ 'generation', 'Choose a pokemon: ', 'Pokemon: ',  'Number:', 'name', '' ],
+					['pokemon-species' , 'Selected Pokemon in Different Languages: ' , 'Pronunciation:' , 'Language:' , 'genus', 'language.name'],
+					[ 'pokemon-species', 'Pokedex & Pokedex Entry: ',  'Available in Pokedex: ',  'Pokedex Entry Number:',   'pokedex.name', 'entry_number' ],
+				];
+function getData( level, selection ) {
+	if(level == 3)
+	{
+		
+	}else
+	{
+		theURL = apiURL + apiData[level][0] + "/" +  selection;
+	}
+	console.log(theURL);
+	//if( level<2 )	//when listing by state (level 2), the last / must be omited
+	//	theURL += '/';
+	fetch( theURL )		//get the raw answer
+		.then( res => res.json() )						//get structure
+		.then( data => buildTable( data,level,selection ) );//convert and show
+}
+function buildTable( theArray, level, selection )
+{
+	updateInfo( level, selection );
+	text="<h3>" + apiData[level][1] + "</h3>\n<table>\n<tr><th>"+ apiData[level][2] +"</th><th>"+ apiData[level][3] +"</th></tr>\n";
+	let i = 1;
+	console.log(theURL);
+	if( level == 0)
+	{
+		theArray['results'].forEach( function ( theItem ){
+		let theAction = 'onclick="getData(' + (level+1) + ", '" + i +"');\"";
+		let field1 = eval( "theItem." + apiData[level][4] );
+		let field2 = eval(i);
+		text += "<tr><td>" 
+			 + "<a " + theAction + ">" + field1 + "</a>"
+			 + "</td><td>" + field2 + "</td></tr>\n";
+		i++;
+		});
+	}else if(level == 1)
+	{
+		theArray['pokemon_species'].forEach( function ( theItem ){
+			let theAction = 'onclick="getData(' + (level+1) + ", '"  + i +"');\"";
+			let field1 = eval( "theItem." + apiData[level][4] );
+			let field2 = eval(i);
+			text += "<tr><td>" 
+				 + "<a " + theAction + ">" + field1 + "</a>"
+				 + "</td><td>" + field2 + "</td></tr>\n";
+			i++;
+		});
+	}else if(level == 2)
+	{
+		theArray['genera'].forEach( function ( theItem ){
+			let theAction = 'onclick="getData(' + (level+1) + ", '" + i +"');\"";
+			let field1 = eval( "theItem." + apiData[level][4] );
+			let field2 = eval( "theItem." + apiData[level][5] );
+			text += "<tr><td>" 
+				 + "<a " + theAction + ">" + field1 + "</a>"
+				 + "</td><td>" + field2 + "</td></tr>\n";
+			i++;
+		});
+	}else
+	{
+		theArray['pokedex_numbers'].forEach( function ( theItem ){
+			let theAction = 'onclick="getData(' + (level+1) + ", '" + i +"');\"";
+			let field1 = eval( "theItem." + apiData[level][4] );
+			let field2 = eval( "theItem." + apiData[level][5] );
+			text += "<tr><td>" 
+				 + "<a " + theAction + ">" + field1 + "</a>"
+				 + "</td><td>" + field2 + "</td></tr>\n";
+			i++;
+		});
+	}
+
+	text += "</table>\n";
+	document.getElementById( 'theTable' ).innerHTML = text;
+}
+function updateInfo( level, selection )
+{
+	console.log( "Level: " + level + ", Selection: ", selection );
+	if( level==0 )
+		for( var i=1; i<=3; i++ )
+			document.getElementById( 'info' + i ).textContent = "-";
+	else
+		document.getElementById( 'info' + level ).textContent = selection;
+}
+		</script>
+</head>
+<body>
+	<h1 style="color: Yellow;">Learning about Pokemon using the PokeAPI!</h1>
+	<p style="color: Yellow;">Generation:<span id="info1">-</span>, Pokemon:<span id="info2">-</span>, Language:<span id="info3">-</span></p>
+	<!--p>This is raw data from JSON file:</p>
+	<pre><span id="showString">String</span></pre>
+	<p>This is selected data: <b><span id="showData">Data</span></b></p-->
+	<div id="player"></div>
+	<div id="theTable"></div>
+	
+	<script>
+const showString = document.getElementById( "showString" );
+const showData   = document.getElementById( "showData"   );
+
+getData( 0, "" );	//Countries (no selection)
+	</script>
+	
+</body>
+</html>

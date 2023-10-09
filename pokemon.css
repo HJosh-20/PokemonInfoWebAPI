@@ -1,0 +1,65 @@
+
+/*table */
+table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+	/*width: 600px;*/
+}
+body{	text-align: left;
+		font-family: Brush-Script;
+		background-image: url("PokeAPIBackground.jpg");
+		background-image: no-repeat;
+		background-size: 100% auto;}
+h3{
+	color: Yellow;
+}
+
+table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+}
+table th,
+table td {
+    padding: 12px 15px;
+}
+
+table tbody tr {
+    border-bottom: 1px solid #FFFF00;
+	background-color: #FF0000;
+	color: white;
+}
+
+tbody tr:nth-of-type(even) {
+    background-color: #0000FF;
+	color: white;
+}
+
+tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+.styled-table tbody tr.active-row {
+    font-weight: bold;
+    color: #009879;
+}
+/*button*/
+.fcc-btn {
+	background-color: #0000FF;
+	color: white;
+	padding: 2px 25px;
+	text-decoration: none;
+}
+/*Div for the table*/
+#theTable	{
+	height: 600px;
+	overflow-y: auto;
+	/*box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);*/
+}
+.info {
+	width: 100px;
+}
